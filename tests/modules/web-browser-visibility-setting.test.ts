@@ -44,5 +44,11 @@ describe("WEB browser background preference", () => {
     expect(agent).toMatch(
       /async function enforceHiddenWindowPolicy[\s\S]*?await stopDedicatedBrowser\(\)/,
     );
+    expect(agent).toMatch(
+      /async function ensureDedicatedBrowserMode[\s\S]*?adapter\.host === "www\.kimi\.com"/,
+    );
+    expect(agent).toMatch(
+      /async function hideDedicatedBrowser[\s\S]*?adapter\.host === "www\.kimi\.com"[\s\S]*?await minimizeDedicatedBrowser\(\)/,
+    );
   });
 });

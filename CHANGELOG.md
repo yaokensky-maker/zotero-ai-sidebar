@@ -2,6 +2,13 @@
 
 Version history. For published builds and release details, see [GitHub Releases](https://github.com/xuhan-rgb/zotero-ai-sidebar/releases); [中文](CHANGELOG.zh-CN.md).
 
+## v0.8.21-kimi.1
+
+- **Kimi answer sync**: recognize Kimi's current answer markup so completed website replies are mirrored back into Zotero.
+- **Kimi conversation recovery**: migrate saved legacy `/chat/p...` links to Kimi's canonical `/chat/<uuid>` URL after the existing conversation loads.
+- **Kimi background mode**: keep the authenticated browser session alive and minimize its window instead of restarting it headlessly, which could stall replies.
+- **Scope**: compatibility prerelease based on upstream v0.8.20.
+
 ## v0.8.20
 
 This release has been rebuilt to include the previously unpublished workspace changes below. If you installed the earlier v0.8.20 package, download the replacement XPI and install it manually, then restart Zotero.

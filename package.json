@@ -1,7 +1,7 @@
 {
   "name": "zotero-ai-sidebar",
   "type": "module",
-  "version": "0.8.20",
+  "version": "0.8.21-kimi.1",
   "description": "AI research sidebar for Zotero with API and local browser-backed web chat modes.",
   "config": {
     "addonName": "Zotero AI Sidebar",
@@ -12,13 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xuhan-rgb/zotero-ai-sidebar.git"
+    "url": "git+https://github.com/yaokensky-maker/zotero-ai-sidebar.git"
   },
   "author": "qwer",
   "bugs": {
-    "url": "https://github.com/xuhan-rgb/zotero-ai-sidebar/issues"
+    "url": "https://github.com/yaokensky-maker/zotero-ai-sidebar/issues"
   },
-  "homepage": "https://github.com/xuhan-rgb/zotero-ai-sidebar#readme",
+  "homepage": "https://github.com/yaokensky-maker/zotero-ai-sidebar#readme",
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "prepare:web-agent": "npm ci --prefix web-agent --omit=dev --ignore-scripts && node scripts/patch-playwright-firefox.mjs",

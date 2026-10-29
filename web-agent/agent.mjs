@@ -848,6 +848,27 @@ async function webSession(browserContext, task, adapter) {
         session.materialUploaded = false;
         return webSession(browserContext, task, adapter);
       }
+      // Kimi migrates legacy /chat/p... links to a canonical /chat/<uuid>
+      // with client-side routing after the initial HTTP 200. Persist the
+      // canonical URL once the existing conversation has actually loaded.
+      const migratedKimiConversation =
+        adapter.host === "www.kimi.com" &&
+        new URL(session.conversationUrl).pathname.startsWith("/chat/p") &&
+        new URL(page.url()).pathname.startsWith("/chat/") &&
+        conversationIdentity(page.url(), adapter) !== expected &&
+        response?.status() === 200;
+      if (migratedKimiConversation &&
+          (await composerReady(page, adapter)) &&
+          (await (await firstResponseLocator(page, adapter)).count()) > 0) {
+        session.conversationUrl = page.url();
+        await saveConversationBinding(session.slot, {
+          url: session.conversationUrl,
+          materialUploaded: session.materialUploaded,
+          materialKey: session.materialKey,
+          titleApplied: session.titleApplied,
+        });
+        return session;
+      }
       if (
         response?.status() >= 400 ||
         conversationIdentity(page.url(), adapter) !== expected
@@ -858,8 +879,16 @@ async function webSession(browserContext, task, adapter) {
       if (
         (await composerReady(page, adapter)) &&
         (await (await firstResponseLocator(page, adapter)).count()) > 0
-      )
+      ) {
+        // Kimi can briefly hydrate messages before replacing the legacy URL.
+        if (adapter.host === "www.kimi.com" &&
+            new URL(session.conversationUrl).pathname.startsWith("/chat/p") &&
+            Date.now() < deadline - 12_000) {
+          await page.waitForTimeout(100);
+          continue;
+        }
         return session;
+      }
       await page.waitForTimeout(100);
     }
     if (
@@ -1242,7 +1271,7 @@ async function hideDedicatedBrowser(provider, customProvider) {
     }
   }
   accountWindowVisible = false;
-  if (isGLMAdapter(adapter) || adapter.host === "chat.z.ai") {
+  if (isGLMAdapter(adapter) || adapter.host === "chat.z.ai" || adapter.host === "www.kimi.com") {
     preserveBrowserSession = true;
     await minimizeDedicatedBrowser();
     return {
@@ -1295,7 +1324,7 @@ function isGLMAdapter(adapter) {
 }
 
 async function ensureDedicatedBrowserMode(mode, adapter) {
-  const keepVisible = isGLMAdapter(adapter) || adapter.host === "chat.z.ai";
+  const keepVisible = isGLMAdapter(adapter) || adapter.host === "chat.z.ai" || adapter.host === "www.kimi.com";
   if (keepVisible) mode = "visible";
   if (browserTransition) {
     await browserTransition;

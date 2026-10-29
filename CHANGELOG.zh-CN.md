@@ -2,6 +2,13 @@
 
 版本更新记录。已发布构建与发布说明见 [GitHub Releases](https://github.com/xuhan-rgb/zotero-ai-sidebar/releases)；[English](CHANGELOG.md)。
 
+## v0.8.21-kimi.1
+
+- **Kimi 回答同步**：识别 Kimi 当前的回答页面结构，让网页端完成的回复能同步回 Zotero。
+- **Kimi 对话恢复**：旧版 `/chat/p...` 对话跳转成功后，保存 Kimi 新的 `/chat/<uuid>` 标准地址。
+- **Kimi 后台模式**：保留已登录的浏览器会话并最小化窗口，避免切换无头浏览器后回复卡住。
+- **版本定位**：基于上游 v0.8.20 的兼容性预发布版。
+
 ## v0.8.20
 
 本次重新打包补齐此前未发布的工作区改动。已安装旧版 v0.8.20 的用户，请重新下载替换后的 XPI，手动覆盖安装并重启 Zotero。

@@ -225,6 +225,9 @@ describe("Web Agent provider adapters", () => {
     expect(kimi.batchAttachments).toBeUndefined();
     expect(kimi.send).toContain(".send-button-container:has(svg[name='Send'])");
     expect(kimi.answers).toContain(
+      ".chat-content-item-assistant .segment-content-box .markdown-container:not(.toolcall-content-text) > .markdown",
+    );
+    expect(kimi.answers).toContain(
       ".chat-content-item-assistant .segment-content-box > .markdown-container > .markdown",
     );
     expect(kimi.reasoning).toContain(".thinking-container .markdown");

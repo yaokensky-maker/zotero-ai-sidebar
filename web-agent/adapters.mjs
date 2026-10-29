@@ -248,6 +248,7 @@ PROVIDERS.kimi = {
     ".send-button-container:has(.stop-icon)",
   ],
   answers: [
+    ".chat-content-item-assistant .segment-content-box .markdown-container:not(.toolcall-content-text) > .markdown",
     ".chat-content-item-assistant .segment-content-box > .markdown-container > .markdown",
   ],
   reasoning: [".thinking-container .markdown"],
